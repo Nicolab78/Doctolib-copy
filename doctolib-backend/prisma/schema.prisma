@@ -14,6 +14,8 @@ datasource db {
   provider = "postgresql"
 }
 
+//Modèle User
+
 enum UserRole {
   PATIENT
   PRACTICIONNER
@@ -29,4 +31,33 @@ model User {
   role       UserRole
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  patientAppointments Appointement[] @relation("PatientAppointments")
+  practicionerAppointments Appointement[] @relation("PracticionerAppointments")
+}
+
+//Modèle Appointement (Rendez vous)
+
+enum AppointementType {
+  VISIO
+  PRESENTIEL
+}
+
+enum AppointementStatus {
+  SCHEDULED
+  CANCELLED
+  DONE
+}
+
+model Appointement{
+  id            String  @id @default(uuid())
+  patientId     String
+  practionnerId String
+  date          DateTime
+  type          AppointementType    
+  status        AppointementStatus  @default(SCHEDULED)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  patient     User                  @relation("PatientAppointments", fields: [patientId], references: [id])
+  practionner User                  @relation("PracticionerAppointments", fields: [practionnerId], references: [id])
 }
