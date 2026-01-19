@@ -7,17 +7,23 @@ const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 
 export const authService = {
     async register(data: RegisterDto) {
-        const existing = await authRepository.findByEmail(data.email);
-        if (existing) throw new Error("Email existant");
+    const existing = await authRepository.findByEmail(data.email);
+    if (existing) throw new Error("Email existant");
 
-        const hashed = await bcrypt.hash(data.password, 10);
+    const hashed = await bcrypt.hash(data.password, 10);
 
-        const user = await authRepository.createUser({
-            ...data,
-            password: hashed
-        });
+    const user = await authRepository.createUser({
+        ...data,
+        password: hashed
+    });
 
-        return user;
+    const token = jwt.sign(
+        { id: user.id, role: user.role },
+        JWT_SECRET,
+        { expiresIn: "7d" }
+    );
+
+    return { token, user };
     },
 
     async login(data: LoginDto) {
