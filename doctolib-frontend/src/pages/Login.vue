@@ -13,10 +13,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { authService } from "../services/auth.service";
+import { useRouter } from "vue-router";
 import type { LoginDTO } from "../types/auth";
+import { useAuth } from "../composables/useAuth";
+const { login } = useAuth();
 
 const email = ref("");
 const password = ref("");
+const router = useRouter();
 
 async function submit() {
   const payload: LoginDTO = {
@@ -26,9 +30,12 @@ async function submit() {
 
   try {
     const data = await authService.login(payload);
+    login(data.user, data.token);
+    router.push("/");
+
     console.log("Login success:", data);
-  } catch (err) {
-    console.error("Login error:", err);
+  } catch (err: any) {
+    console.error("Login error:", err.response?.data || err);
   }
 }
 </script>

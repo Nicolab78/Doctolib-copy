@@ -1,9 +1,10 @@
-<template>
-  <nav>
-    <router-link to="/">Home</router-link>
-    <router-link to="/login">Login</router-link>
-    <router-link to="/register">Register</router-link>
-  </nav>
+<script setup lang="ts">
+import Navbar from './components/Navbar.vue';
 
+</script>
+
+<template>
+
+  <navbar />
   <router-view />
 </template>
