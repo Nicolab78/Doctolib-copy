@@ -1,13 +1,13 @@
-import { appointementService } from "../services/appointement.service";
+import { appointmentService } from "../services/appointment.service";
 import type { Request, Response } from "express";
 
 type IdParam = { id: string }
 
-export const appointementController = {
+export const appointmentController = {
     create: async (req: Request, res: Response) => {
         try{
-            const appointement = await appointementService.createAppointement(req.body)
-            res.status(201).json(appointement)
+            const appointment = await appointmentService.createAppointment(req.body)
+            res.status(201).json(appointment)
 
         } catch (err: any){
             res.status(400).json({ error: err.message })
@@ -16,8 +16,8 @@ export const appointementController = {
 
     list: async (req: Request, res: Response) => {
         try{
-            const appointements = await appointementService.getAppointements()
-            res.status(200).json(appointements)
+            const appointments = await appointmentService.getAppointments()
+            res.status(200).json(appointments)
         } catch (err: any) {
             res.status(400).json({ error: err.message})
         }
@@ -26,17 +26,31 @@ export const appointementController = {
 
     get: async (req: Request<IdParam>, res: Response) => {
         try{
-            const appointement = await appointementService.getAppointement(req.params.id)
-            res.status(200).json(appointement)
+            const appointment = await appointmentService.getAppointment(req.params.id)
+            res.status(200).json(appointment)
         }catch (err: any){
             res.status(400).json({ error: err.message })
         }
     },
 
+    me: async (req: Request, res: Response) => {
+    try {
+        const userId = req.user.id
+        const role = req.user.role
+
+        const appointments = await appointmentService.getForUser(userId, role)
+        res.status(200).json(appointments)
+
+    } catch (err: any) {
+        res.status(400).json({ error: err.message })
+    }
+},
+    
+
     update: async (req: Request<IdParam>, res: Response) => {
         try{
-            const updatedappointement = await appointementService.updateAppointement(req.params.id, req.body)
-            res.status(200).json(updatedappointement)
+            const updatedappointment = await appointmentService.updateAppointment(req.params.id, req.body)
+            res.status(200).json(updatedappointment)
         } catch (err: any) {
             res.status(400).json({ error: err.message})
         }
@@ -44,7 +58,7 @@ export const appointementController = {
 
     delete: async (req: Request<IdParam>, res: Response) => {
         try{
-            await appointementService.deleteAppointement(req.params.id)
+            await appointmentService.deleteAppointment(req.params.id)
             res.status(204).send()
         } catch ( err: any) {
             res.status(400).json({ error: err.message })

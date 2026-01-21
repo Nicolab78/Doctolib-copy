@@ -4,7 +4,7 @@ export interface RegisterDto {
   firstname: string;
   lastname: string;
   phone?: string;
-  role: "PATIENT" | "PRACTICIONNER";
+  role: "PATIENT" | "PRACTITIONER";
 }
 
 export interface LoginDto {
