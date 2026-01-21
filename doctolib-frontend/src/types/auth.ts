@@ -9,7 +9,7 @@ export interface RegisterDTO {
   firstname: string;
   lastname: string;
   phone?: string;
-  role: "PATIENT" | "PRACTICIONNER";
+  role: "PATIENT" | "PRACTITIONER";
 }
 
 export interface AuthResponse {
@@ -19,7 +19,7 @@ export interface AuthResponse {
     email: string;
     firstname: string;
     lastname: string;
-    role: "PATIENT" | "PRACTICIONNER";
+    role: "PATIENT" | "PRACTITIONER";
     phone?: string;
   };
 }

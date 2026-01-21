@@ -12,7 +12,7 @@
 
             <select v-model="role">
                 <option value="PATIENT">Patient</option>
-                <option value="PRACTICIONNER">Praticien</option>
+                <option value="PRACTITIONER">Praticien</option>
             </select>
             <button type="submit">S'inscrire</button>
 
@@ -34,7 +34,7 @@ const email = ref("");
 const password = ref("");
 const confirm = ref("");
 const phone = ref("");
-const role = ref<"PATIENT" | "PRACTICIONNER">("PATIENT");
+const role = ref<"PATIENT" | "PRACTITIONER">("PATIENT");
 
 async function submit() {
     const payload: RegisterDTO = {

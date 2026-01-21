@@ -1,5 +1,6 @@
 import { userRepository } from "../repositories/user.repository";
 import type { CreateUserDTO, UpdateUserDTO } from "../types/user";
+import { PractitionerSpecialty } from "../../prisma/generated";
 import bcrypt from 'bcrypt'
 
 export const userService = {
@@ -32,6 +33,15 @@ export const userService = {
 
     deleteUser(id: string){
         return userRepository.delete(id);
+    },
+
+    getPractitioners: async () => {
+        return await userRepository.findPractitioners()
+    },
+
+
+    updateSpecialty(id: string, specialty: PractitionerSpecialty) {
+        return userRepository.updateSpecialty(id, specialty);
     }
 
 
