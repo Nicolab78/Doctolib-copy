@@ -1,10 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-
 generator client {
   provider = "prisma-client-js"
   output   = "./generated"
@@ -14,50 +7,57 @@ datasource db {
   provider = "postgresql"
 }
 
-//Modèle User
+model User {
+  id                       String          @id @default(uuid())
+  email                    String          @unique
+  password                 String
+  firstname                String
+  lastname                 String
+  phone                    String?
+  role                     UserRole
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
+  specialty                PractitionerSpecialty?
+
+  patientAppointments      Appointment[]   @relation("PatientAppointments")
+  practitionerAppointments Appointment[]   @relation("PractitionerAppointments")
+}
+
+model Appointment {
+  id             String             @id @default(uuid())
+  patientId      String
+  practitionerId String
+  date           DateTime
+  type           AppointmentType
+  status         AppointmentStatus  @default(SCHEDULED)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  patient        User               @relation("PatientAppointments", fields: [patientId], references: [id])
+  practitioner   User               @relation("PractitionerAppointments", fields: [practitionerId], references: [id])
+}
 
 enum UserRole {
   PATIENT
-  PRACTICIONNER
+  PRACTITIONER
 }
 
-model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
-  password   String
-  firstname  String
-  lastname   String
-  phone      String?
-  role       UserRole
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  patientAppointments Appointement[] @relation("PatientAppointments")
-  practicionerAppointments Appointement[] @relation("PracticionerAppointments")
+enum PractitionerSpecialty {
+  GENERALIST
+  CARDIOLOGIST
+  DENTIST
+  DERMATOLOGIST
+  PEDIATRICIAN
+  OPHTALMOLOGIST
 }
 
-//Modèle Appointement (Rendez vous)
-
-enum AppointementType {
+enum AppointmentType {
   VISIO
   PRESENTIEL
 }
 
-enum AppointementStatus {
+enum AppointmentStatus {
   SCHEDULED
   CANCELLED
   DONE
-}
-
-model Appointement{
-  id            String  @id @default(uuid())
-  patientId     String
-  practionnerId String
-  date          DateTime
-  type          AppointementType    
-  status        AppointementStatus  @default(SCHEDULED)
-  createdAt     DateTime            @default(now())
-  updatedAt     DateTime            @updatedAt
-
-  patient     User                  @relation("PatientAppointments", fields: [patientId], references: [id])
-  practionner User                  @relation("PracticionerAppointments", fields: [practionnerId], references: [id])
 }

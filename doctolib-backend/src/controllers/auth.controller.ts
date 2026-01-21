@@ -19,5 +19,9 @@ export const authController = {
             res.status(400).json({ error: err.message});
         }
 
+    },
+
+    me: async (req: Request, res: Response) => {
+        res.json(req.user)
     }
 }

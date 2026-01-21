@@ -2,6 +2,12 @@ import { userService } from "../services/user.service"
 import type { Request, Response } from "express"
 
 type IdParam = { id: string }
+type RoleParam = { role: string }
+
+type AuthUser = {
+  id: string
+  role: string
+}
 
 export const userController = {
   create: async (req: Request, res: Response) => {
@@ -48,4 +54,23 @@ export const userController = {
       res.status(400).json({ error: err.message })
     }
   },
+
+  listPractitioners: async (req: Request, res: Response) => {    
+    try {
+        const practitioners = await userService.getPractitioners()
+        res.status(200).json(practitioners)
+    } catch (err: any) {
+        res.status(400).json({ error: err.message })
+    }
+  },
+
+  updateSpecialty: async (req: Request, res: Response) => {
+    try {
+      const user = req.user as AuthUser
+      const updated = await userService.updateSpecialty(user.id, req.body.specialty)
+      res.status(200).json(updated)
+    } catch (err: any) {
+      res.status(400).json({ error: err.message })
+    }
+  }
 }

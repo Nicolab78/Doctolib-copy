@@ -4,7 +4,7 @@ export interface CreateUserDTO {
     firstname: string
     lastname: string
     phone?: string
-    role: 'PATIENT'|'PRACTICIONNER' 
+    role: 'PATIENT'|'PRACTITIONER' 
 }
 
 export interface UpdateUserDTO {
@@ -13,6 +13,6 @@ export interface UpdateUserDTO {
     firstname?: string
     lastname?: string
     phone?: string
-    role?: 'PATIENT'|'PRACTICIONNER' 
+    role?: 'PATIENT'|'PRACTITIONER'
 }
 

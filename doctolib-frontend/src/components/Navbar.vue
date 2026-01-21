@@ -18,7 +18,7 @@ const { user, isAuthenticated, logout } = useAuth();
 
       <template v-else>
         <span>Bonjour {{ user.firstname }}</span>
-        <RouterLink to="/profile">Profil</RouterLink>
+        <RouterLink to="/profil">Profil</RouterLink>
         <button @click="logout">Déconnexion</button>
       </template>
     </div>
