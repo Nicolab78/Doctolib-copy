@@ -7,7 +7,8 @@ import cors from "cors";
 const app = express()
 
 app.use(cors({
-  origin: "*", // pour tester, on ouvre tout
+  //origin: "http://localhost:5173" (vue)
+  origin: "*", // temporaire
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
