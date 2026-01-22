@@ -7,15 +7,15 @@ import cors from "cors";
 const app = express()
 
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
+  origin: "*", // pour tester, on ouvre tout
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json())
 
 app.use("/users", userRoutes)
 app.use("/appointments", appointmentRoutes)
-console.log("APPOINTMENT ROUTES LOADED")
 app.use("/auth", authRoutes)
 
 export default app
