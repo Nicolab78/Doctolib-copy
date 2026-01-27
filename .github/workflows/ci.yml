@@ -1,0 +1,33 @@
+name: Docker Build and Test
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend image
+        run: |
+          docker build -t doctolib-backend:${{ github.sha }} ./doctolib-backend
+
+      - name: Build Frontend image
+        run: |
+          docker build -t doctolib-frontend:${{ github.sha }} ./doctolib-frontend
+
+      - name: Build Mobile image
+        run: |
+          docker build -t doctolib-mobile:${{ github.sha }} ./doctolib_mobile
+
+      - name: Test docker-compose
+        run: docker compose config
