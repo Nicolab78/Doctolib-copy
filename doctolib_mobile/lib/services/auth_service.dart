@@ -3,7 +3,13 @@ import '../api/dio_client.dart';
 import '../storage/token_storage.dart';
 
 class AuthService {
+  AuthService._internal();
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+
   final _storage = TokenStorage();
+
+  Map<String, dynamic>? user;
 
   Future<void> login(String email, String password) async {
     final res = await DioClient.dio.post(
@@ -13,6 +19,8 @@ class AuthService {
 
     final token = res.data["token"];
     await _storage.save(token);
+
+    user = res.data["user"];
   }
 
   Future<void> register({
@@ -38,7 +46,7 @@ class AuthService {
     final token = res.data["token"];
     await _storage.save(token);
 
-    print("REGISTER OK : ${res.data}");
+    user = res.data["user"];
   }
 
   Future<Map<String, dynamic>> getMe() async {
@@ -49,5 +57,6 @@ class AuthService {
 
   Future<void> logout() async {
     await _storage.clear();
+    user = null;
   }
 }
