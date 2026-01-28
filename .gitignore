@@ -1,0 +1,11 @@
+# --- MONOREPO: ignore Flutter/Android build artifacts ---
+
+doctolib_mobile/build/
+doctolib_mobile/.dart_tool/
+
+doctolib_mobile/android/.gradle/
+doctolib_mobile/android/build/
+doctolib_mobile/android/app/build/
+doctolib_mobile/android/app/intermediates/
+doctolib_mobile/android/app/outputs/
+doctolib_mobile/android/app/.cxx/
