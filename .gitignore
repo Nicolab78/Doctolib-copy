@@ -1,3 +1,5 @@
+.env
+.env.*
 # --- MONOREPO: ignore Flutter/Android build artifacts ---
 
 doctolib_mobile/build/
